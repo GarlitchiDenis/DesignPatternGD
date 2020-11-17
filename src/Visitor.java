@@ -5,6 +5,6 @@ public interface Visitor {
     public abstract void visit(Table table);
 
     public abstract void visit(Section section);
-
+    public abstract void visit(Book book);
 
 }

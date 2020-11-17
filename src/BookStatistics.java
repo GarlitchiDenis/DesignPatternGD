@@ -1,54 +1,38 @@
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import java.io.*;
 public class BookStatistics implements Visitor {
 
-    int sectionCounter=0;
-    int imageCounter=0;
-    int tableCounter=0;
-    int paragraphCounter=0;
-    JSONObject obj=new JSONObject();
-    JSONArray i=new JSONArray();
-    JSONArray p=new JSONArray();
-    JSONArray s=new JSONArray();
-    JSONArray ip=new JSONArray();
-    JSONArray t=new JSONArray();
+    int paragraphs=0,sections=0,imageproxy=0,images=0,tables=0,book=0;
 
-    public void visit(Image image){imageCounter++;
-    i.add(image.getImageName());}
+    @Override
+    public void visit(Book b) {
+        book++;
+    }
 
-    public void visit(Section section){sectionCounter++;
-    s.add(section.getTitle());}
+    @Override
+    public void visit(Section s) {
+        sections++;
+    }
 
-    public void visit(ImageProxy imageProxy){imageCounter++;
-    ip.add(imageProxy.getRealImage());}
+    @Override
+    public void visit(Paragraph p) {
+        paragraphs++;
+    }
 
-    public void visit(Paragraph paragraph){paragraphCounter++;
-    p.add(paragraph.getName());}
+    @Override
+    public void visit(ImageProxy ip) {
+        imageproxy++;
+    }
 
-    public void visit(Table table){tableCounter++;
-    t.add(table.getName());}
+    @Override
+    public void visit(Image i) {
+        images++;
+    }
 
-    public void CreateJSON() throws Exception{
-        try(FileWriter file=new FileWriter("myJSON.json")){
-            obj.put("Section",s);
-            obj.put("Paragraph",p);
-            obj.put("Table",t);
-            obj.put("Image",i);
-            obj.put("ImageProxy",ip);
-
-            file.write(obj.toString());
-            file.flush();
-        }catch(IOException e){
-            e.printStackTrace();
-        }
+    @Override
+    public void visit(Table t) {
+        tables++;
     }
 
     public void printStatistics(){
-     System.out.println("Book Statistics: ");
-     System.out.println("Number of images: "+ imageCounter);
-     System.out.println("Number of tables: "+ tableCounter);
-     System.out.println("Number of paragraphs: "+ paragraphCounter);
-     System.out.println("Number of sections: "+ sectionCounter);
+        System.out.println("Books: "+book+"\nSections: "+sections+"\nparagraphs: "+paragraphs+"\nimages: "+images+"\nimageproxy: "+imageproxy+"\ntables: "+tables);
     }
 }
